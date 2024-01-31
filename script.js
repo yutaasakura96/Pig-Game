@@ -1,6 +1,8 @@
 'use strict';
 
 // SELECTING ELEMENTS
+const player0El = document.querySelector('.player--0');
+const player1El = document.querySelector('.player--1');
 const score0El = document.querySelector('#score--0');
 const score1El = document.getElementById('score--1');
 const current0El = document.getElementById('current--0');
@@ -11,7 +13,9 @@ const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
 
+const scores = [0, 0];
 let currentScore = 0;
+let activePlayer = 0;
 
 // STARTING CONDITIONS
 score0El.textContent = 0;
@@ -25,13 +29,20 @@ btnRoll.addEventListener('click', function () {
   // 2.Display dice
   diceEl.classList.remove('hidden');
   diceEl.src = `dice-${dice}.png`;
+  console.log(dice);
   // 3.Check for the result of the dice roll
   if (dice !== 1) {
     // Add to current score
-    currentScore += +dice;
-    current0El.textContent = currentScore;
-    // CHANGE LATER
+    currentScore += dice;
+    document.getElementById(`current--${activePlayer}`).textContent =
+      currentScore;
   } else {
     // if 1 : switch to the next player
+    // Reset current score
+    document.getElementById(`current--${activePlayer}`).textContent = 0;
+    activePlayer = activePlayer === 0 ? 1 : 0;
+    currentScore = 0;
+    player0El.classList.toggle('player--active');
+    player1El.classList.toggle('player--active');
   }
 });
